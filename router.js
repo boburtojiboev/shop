@@ -2,6 +2,10 @@ const express = require("express");
 const router = express.Router();
 const memberController = require("./controller/memberController");
 
+/********************************
+ *         REST API             *
+ ********************************/
+
 // memberga dahldor
 router.post("/signup", memberController.signup);
 router.post("/login", memberController.login);
