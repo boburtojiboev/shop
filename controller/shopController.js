@@ -33,7 +33,7 @@ shopController.signupProcess = async (req, res) => {
     const member = new Member();
     const new_member = await member.signupData(data);
     req.session.member = new_member;
-    res.redirect("/shop/pruducts/menu");
+    res.redirect("/shop/products/menu");
   } catch (err) {
     console.log(`ERROR, cont/signup, ${err.message}`);
     res.json({ state: "fail", message: err.message });
@@ -61,7 +61,7 @@ shopController.loginProcess = async (req, res) => {
     // console.log("result:::", result);
     req.session.member = result;
         req.session.save(function() {
-            res.redirect("/shop/pruducts/menu");
+            res.redirect("/shop/products/menu");
         });
   } catch (err) {
     console.log(`ERROR, cont/login, ${err.message}`);
@@ -73,6 +73,16 @@ shopController.logout = (req, res) => {
   console.log("GET cont.logout");
   res.send("Logout sahifadasiz");
 };
+
+shopController.validateAuthShop = (req, res, next) => {
+  if (req.session?.member?.mb_type === "SHOP") {
+     req.member = req.session.member; 
+     next();
+  } else 
+  res.json({
+      state: "fail,", 
+      message: "only authenticated members with shop type"})
+}
 
 shopController.checkSessions = (req, res) => {
   if (req.session?.member){
