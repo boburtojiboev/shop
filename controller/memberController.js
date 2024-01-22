@@ -10,6 +10,7 @@ memberController.signup = async (req, res) => {
 
     const member = new Member();
     const new_member = await member.signupData(data);
+     // TODO:  AUTHENTICATE BESED ON JWT
     res.json({ state: "succeed", data: new_member });
   } catch (err) {
     console.log(`ERROR, cont/signup, ${err.message}`);

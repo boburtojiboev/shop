@@ -15,4 +15,8 @@ router_bssr.post("/login", shopController.loginProcess);
 
 router_bssr.get("/logout", shopController.logout);
 
+router_bssr.get("/check-me", shopController.checkSessions);
+
+router_bssr.get("/pruducts/menu", shopController.getMyShopData);
+
 module.exports = router_bssr;

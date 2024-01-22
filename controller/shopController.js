@@ -2,13 +2,25 @@ const Member = require("../models/Member");
 
 let shopController = module.exports;
 
+shopController.getMyShopData = async (req, res) => {
+  try {
+    console.log("GET: cont/getMyShopData");
+    // todo get my shop product
+
+    res.render("shop-menu");
+  } catch (err) {
+    console.log(`ERROR, cont/getMyShopData, ${err.message}`);
+    res.json({ state: "fail", message: err.message });
+  }
+};
+
 shopController.getSignupMyShop = async (req, res) => {
   try {
-      console.log("GET: cont/getSignupMyShop");
-      res.render("signup");
-  } catch(err) {
-      console.log(`ERROR, cont/getSignupMyShop, ${err.message}`);
-      res.json({state: 'fail', message: err.message});
+    console.log("GET: cont/getSignupMyShop");
+    res.render("signup");
+  } catch (err) {
+    console.log(`ERROR, cont/getSignupMyShop, ${err.message}`);
+    res.json({ state: "fail", message: err.message });
   }
 };
 
@@ -20,7 +32,8 @@ shopController.signupProcess = async (req, res) => {
 
     const member = new Member();
     const new_member = await member.signupData(data);
-    res.json({ state: "succeed", data: new_member });
+    req.session.member = new_member;
+    res.redirect("/shop/pruducts/menu");
   } catch (err) {
     console.log(`ERROR, cont/signup, ${err.message}`);
     res.json({ state: "fail", message: err.message });
@@ -29,11 +42,11 @@ shopController.signupProcess = async (req, res) => {
 
 shopController.getLoginMyShop = async (req, res) => {
   try {
-      console.log("GET: cont/getLoginMyShop");
-      res.render("login-page");
-  } catch(err) {
-      console.log(`ERROR, cont/getLoginMyShop, ${err.message}`);
-      res.json({state: 'fail', message: err.message});
+    console.log("GET: cont/getLoginMyShop");
+    res.render("login-page");
+  } catch (err) {
+    console.log(`ERROR, cont/getLoginMyShop, ${err.message}`);
+    res.json({ state: "fail", message: err.message });
   }
 };
 
@@ -46,7 +59,10 @@ shopController.loginProcess = async (req, res) => {
     const result = await member.loginData(data);
 
     // console.log("result:::", result);
-    res.json({ state: "succeed", data: result });
+    req.session.member = result;
+        req.session.save(function() {
+            res.redirect("/shop/pruducts/menu");
+        });
   } catch (err) {
     console.log(`ERROR, cont/login, ${err.message}`);
     res.json({ state: "fail", message: err.message });
@@ -56,4 +72,12 @@ shopController.loginProcess = async (req, res) => {
 shopController.logout = (req, res) => {
   console.log("GET cont.logout");
   res.send("Logout sahifadasiz");
+};
+
+shopController.checkSessions = (req, res) => {
+  if (req.session?.member){
+      res.json({state: 'succeed', data: req.session.member});
+  } else {
+    res.json({state: 'fail', message: "You are not authenticated"});  
+  }
 };
