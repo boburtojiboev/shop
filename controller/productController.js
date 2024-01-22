@@ -15,6 +15,7 @@ productController.addNewProduct = async (req, res) => {
     console.log(req.member);
 
     // TODO pruduct creation develop
+    res.json("ok")
   } catch (err) {
     console.log(`ERROR, cont/addNewProduct, ${err.message}`);
    
