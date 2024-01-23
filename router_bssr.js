@@ -20,10 +20,16 @@ router_bssr.get("/logout", shopController.logout);
 router_bssr.get("/check-me", shopController.checkSessions);
 
 router_bssr.get("/products/menu", shopController.getMyShopData);
-router_bssr.post("/products/create", 
-    shopController.validateAuthShop,
-    uploader_product.array("product_images", 5),
-    productController.addNewProduct);
-router_bssr.post("/products/edit/:id", productController.updateChosenProduct);
+router_bssr.post(
+  "/products/create",
+  shopController.validateAuthShop,
+  uploader_product.array("product_images", 5),
+  productController.addNewProduct
+);
+router_bssr.post(
+  "/products/edit/:id",
+  shopController.validateAuthShop,
+  productController.updateChosenProduct
+);
 
 module.exports = router_bssr;
