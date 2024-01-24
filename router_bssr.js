@@ -19,7 +19,10 @@ router_bssr.get("/logout", shopController.logout);
 
 router_bssr.get("/check-me", shopController.checkSessions);
 
-router_bssr.get("/products/menu", shopController.getMyShopData);
+router_bssr.get(
+  "/products/menu",
+  shopController.getMyShopProduct
+);
 router_bssr.post(
   "/products/create",
   shopController.validateAuthShop,
