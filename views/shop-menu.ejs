@@ -1,15 +1,66 @@
 <%- include('includes/header') %>
+<link rel="stylesheet" type="text/css" href="/css/menu.css">
 
 <body>
-    <h1>my shop page</h1>
+    <div id="main_container" c>
+        <div class="group_name">
+            <ul class="nav justify-content-center">
+                <li class="nav-item" style="cursor:pointer;">
+                    <a href="/shop" class="nav-link active">Home</a>
+                </li>
+                <li class="nav-item" style="cursor:pointer;">
+                    <a href="/shop/products/menu" class="nav-link">MyShop</a>
+                </li>
+                <li class="nav-item" style="cursor:pointer;">
+                    <a href="/shop/logout" class="nav-link">Logout</a>
+                </li>
+            </ul>
+        </div>
+    
 
-    <% if(!member) { %>
-    <h2>siz authenticated emassiz</h2>
-    <% } else { %>
-    <h1>siz authenticated bolgansiz va sizning nickingiz <%= member.mb_nick%>
-    <p>sizning telefoningiz <%= member.mb_phone%></p>
-    </h1>
-    <% } %>
+        <div class="shop_menu_frame">
+            <div class="shop_container">
+                <div class="products_table">
+                    <span class="new_product_txt"><%-member.mb_nick.toUpperCase()%> Taomlar Menyusi</span>
+                    <form >
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-light">
+                                <th scope="col">T/r</th>
+                                <th scope="col">Product name</th>
+                                <th scope="col">Product collection</th>
+                                <th scope="col">Product size</th>
+                                <th scope="col">Product price</th>
+                                <th scope="col">Product amount</th>
+                                <th scope="col">Product status</th>
+                            </thead>
+                        <% shop_data.map((value, key) => { %>
+                            <tbody style="background-color: white;">
+                                <td><%- key+1 %></td>
+                                <td><%- value.product_name %></td>
+                                <td><%- value.product_collection %></td>
+                                <td><%- value.product_size %></td>
+                                <td><%- value.product_price %></td>
+                                <td><%- value.product_left_cnt %></td>
+                                <td>
+                                    <select class="spec_select" id="<%- value._id %>">
+                                        <option value="PAUSED" <%- value.product_status == "PAUSED" ? "selected": " " %> >PAUSED</option>
+                                        <option value="PROCESS" <%- value.product_status == "PROCESS" ? "selected": " " %> >PROCESS</option>
+                                    </select>
+                                </td>
+                            </tbody>
+                        <% }); %>
+                        </table>
+                    </form>
+                </div>
+                <form onsubmit="return validateForm()" action="/shop/product/create" method="POST" 
+                class="product_container" enctype="multipart/form-data">
+                    <div class="long_input" style="align-items: flex-end; margin-bottom: 25px;">
+                        <span class="new_product_txt">New product</span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 
 <%- include('includes/header') %>
