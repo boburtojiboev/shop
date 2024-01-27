@@ -82,7 +82,7 @@ shopController.loginProcess = async (req, res) => {
         });
   } catch (err) {
     console.log(`ERROR, cont/loginProcess, ${err.message}`);
-    res.json({ state: "fail", message: err.message });
+    res.redirect("/shop/login");
   }
 };
 
