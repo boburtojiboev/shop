@@ -48,7 +48,7 @@ shopController.signupProcess = async (req, res) => {
     // console.log("body:::", req.body.mb_nick);
     assert(req.file, Definer.general_err3);
     const new_member = req.body;
-    new_member.mb_type = "RESTAURANT";
+    new_member.mb_type = "SHOP";
     new_member.mb_image = req.file.path;
 
     const member = new Member();
@@ -95,8 +95,16 @@ shopController.loginProcess = async (req, res) => {
 };
 
 shopController.logout = (req, res) => {
-  console.log("GET cont.logout");
-  res.send("Logout sahifadasiz");
+  try {
+    console.log("GET: cont/logout");
+    req.session.destroy(function() {
+      res.redirect("/resto");
+    });
+
+  } catch (err) {
+    console.log(`ERROR, cont/logout, ${err.message}`);
+    res.json({ state: "fail", message: err.message });
+  }
 };
 
 shopController.validateAuthShop = (req, res, next) => {
