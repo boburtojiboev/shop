@@ -3,6 +3,19 @@ const Product = require("../models/Product");
 
 let shopController = module.exports;
 
+
+shopController.home = (req, res) => {
+  try {
+    console.log("GET/home");
+    res.render('home-page');
+
+  }catch(err){
+    console.log(`ERROR, cont/home, ${err.message}`);
+    res.json({ state: "fail", message: err.message });
+
+  }
+}
+
 shopController.getMyShopProduct = async (req, res) => {
   try {
     console.log("GET: cont/getMyShopProduct");
@@ -28,7 +41,7 @@ shopController.getSignupMyShop = async (req, res) => {
 
 shopController.signupProcess = async (req, res) => {
   try {
-    console.log("POST: cont/signup");
+    console.log("POST: cont/signupProcess");
     const data = req.body;
     // console.log("body:::", req.body.mb_nick);
 
@@ -37,7 +50,7 @@ shopController.signupProcess = async (req, res) => {
     req.session.member = new_member;
     res.redirect("/shop/products/menu");
   } catch (err) {
-    console.log(`ERROR, cont/signup, ${err.message}`);
+    console.log(`ERROR, cont/signupProcess, ${err.message}`);
     res.json({ state: "fail", message: err.message });
   }
 };
@@ -54,7 +67,7 @@ shopController.getLoginMyShop = async (req, res) => {
 
 shopController.loginProcess = async (req, res) => {
   try {
-    console.log("POST: cont/login");
+    console.log("POST: cont/loginProcess");
     const data = req.body;
     // console.log("body:::", req.body);
     const member = new Member();
@@ -63,10 +76,12 @@ shopController.loginProcess = async (req, res) => {
     // console.log("result:::", result);
     req.session.member = result;
         req.session.save(function() {
-            res.redirect("/shop/products/menu");
+          result.mb_type === 'ADMIN' 
+          ? res.redirect("/shop/all-shop") 
+          : res.redirect("/shop/products/menu");
         });
   } catch (err) {
-    console.log(`ERROR, cont/login, ${err.message}`);
+    console.log(`ERROR, cont/loginProcess, ${err.message}`);
     res.json({ state: "fail", message: err.message });
   }
 };

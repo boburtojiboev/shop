@@ -9,6 +9,7 @@ const uploader_product = require("./utils/upload-multer")("products");
  ********************************/
 
 // memberga dahldor
+router_bssr.get("/", shopController.home)
 router_bssr.get("/signup", shopController.getSignupMyShop);
 router_bssr.post("/signup", shopController.signupProcess);
 
