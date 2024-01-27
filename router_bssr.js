@@ -3,6 +3,7 @@ const router_bssr = express.Router();
 const shopController = require("./controller/shopController");
 const productController = require("./controller/productController");
 const uploader_product = require("./utils/upload-multer")("products");
+const upload_members = require("./utils/upload-multer")("members");
 
 /********************************
  *         BSSR EJS             *
@@ -11,7 +12,7 @@ const uploader_product = require("./utils/upload-multer")("products");
 // memberga dahldor
 router_bssr.get("/", shopController.home)
 router_bssr.get("/signup", shopController.getSignupMyShop);
-router_bssr.post("/signup", shopController.signupProcess);
+router_bssr.post("/signup", upload_members.single("shop_img"), shopController.signupProcess);
 
 router_bssr.get("/login", shopController.getLoginMyShop);
 router_bssr.post("/login", shopController.loginProcess);

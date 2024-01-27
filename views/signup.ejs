@@ -1,5 +1,160 @@
 <%- include('includes/header') %>
+<link rel="stylesheet" href="/CSS/login.css" type="text/css" />
 <body>
-    <h1>Signup page</h1>
+  <form
+    class="login_container"
+    onsubmit="return validateSignUpForm()"
+    method="POST"
+    action="/shop/signup"
+    enctype="multipart/form-data"
+  >
+    <div class="login_frame" style="width: 650px; height: 730px">
+      <div class="login_top">
+        <span>Registration</span>
+
+        <div>
+          ComeBack to
+          <a href="/shop" style="color: #6440fb">Home</a>
+        </div>
+
+        <p>
+          Have you already registred?
+          <a href="/shop/login" style="color: #6440fb">Login</a>
+        </p>
+      </div>
+
+      <!--Name & Phone Number  -->
+      <div class="sign_input_frame">
+        <div class="sign_up_frame">
+          <label>User Name</label>
+          <input
+            type="text"
+            name="mb_nick"
+            class="mb_nick"
+            placeholder="User Name"
+            value=""
+            required
+          />
+        </div>
+
+        <div class="sign_up_frame">
+          <label>Phone number</label>
+          <input
+            type="text"
+            name="mb_phone"
+            class="mb_phone"
+            placeholder="Phone number"
+            value=""
+            required
+          />
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="sign_input_frame">
+        <div class="sign_up_frame">
+          <label>Password</label>
+          <input
+            type="password"
+            name="mb_password"
+            class="mb_password"
+            placeholder="Password"
+            value=""
+            required
+          />
+        </div>
+
+        <div class="sign_up_frame">
+          <label>confirm Password</label>
+          <input
+            type="password"
+            name="mb_confirm_password"
+            class="mb_confirm_password"
+            placeholder="confirm Password"
+            value=""
+            required
+          />
+        </div>
+      </div>
+      <!--Image File-->
+      <div class="login_input_frame">
+        <div class="media-frame">
+          <img src="/image/Store.jpg" class="upload_img_frame" alt="image" />
+          <div class="upload_container">
+            <span class="media_text"> Store Image</span>
+            <div class="filebox bs3-primary preview-image">
+              <input class="upload-name" value="" disabled="disabled" />
+              <label for="input_file">Choose Image</label>
+              <input
+                class="upload-hidden form-control-file shop_img"
+                type="file"
+                id="input_file"
+                name="shop_img"
+              />
+            </div>
+            <p class="thumbnail_desc">
+              Here your store image.
+              <br />Only: .jpg, .jpeg or .png. <br />Image does not include
+              text!
+            </p>
+          </div>
+        </div>
+      </div>
+      <button class="login_btn btn" name="signup" type="submit">
+        Register
+      </button>
+    </div>
+  </form>
 </body>
+<script>
+  $(function () {
+    let fileTarget = $(".filebox .upload-hidden");
+    let filename = "";
+    fileTarget.on("change", function () {
+      if (window.FileReader) {
+        const uploading_file = $(this)[0].files[0];
+        const fileType = uploading_file["type"];
+        const validImageTypes = ["image/jpg", "image/jpeg", "image/png"];
+        if (!validImageTypes.includes(fileType)) {
+          alert(
+            "Iltimos ruhsat etilgan formatdagi rasmlarni yuklang: jpg, jpeg va png!"
+          );
+        } else {
+          if (uploading_file) {
+            console.log(URL.createObjectURL(uploading_file));
+            $(".upload_img_frame")
+              .attr("src", URL.createObjectURL(uploading_file))
+              .addClass("success");
+          }
+          filename = $(this)[0].files[0].name;
+        }
+      }
+      $(this).siblings(".upload-name").val(filename);
+    });
+  });
+  function validateSignUpForm() {
+    const mb_nick = $(".mb_nick").val();
+    const mb_password = $(".mb_password").val();
+    const mb_phone = $(".mb_phone").val();
+    const mb_confirm_password = $(".mb_confirm_password").val();
+    const shop_img = $(".shop_img").get(0).files[0] ?? null;
+    if (
+      mb_nick == "" ||
+      mb_password == "" ||
+      mb_phone == "" ||
+      mb_confirm_password == ""
+    ) {
+      alert("Iltimos hamma ma'lumotlarni to'ldiring!");
+      return false;
+    } else if (mb_password !== mb_confirm_password) {
+      alert(`iltimos passwordni to'g'ri kiriting!`);
+      return false;
+    }
+    if (!shop_img) {
+      alert("Iltimos rasmni yuklang!");
+      return false;
+    }
+    return true;
+  }
+</script>
 <%- include('includes/header') %>
