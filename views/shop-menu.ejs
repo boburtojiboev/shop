@@ -1,7 +1,7 @@
 <%- include('includes/header') %>
 <link rel="stylesheet" type="text/css" href="/css/menu.css">
 
-<body>
+<body class="body_mane" >
     <div id="main_container" c>
         <div class="group_name">
             <ul class="nav justify-content-center">
@@ -21,46 +21,229 @@
         <div class="shop_menu_frame">
             <div class="shop_container">
                 <div class="products_table">
-                    <span class="new_product_txt"><%-member.mb_nick.toUpperCase()%> Taomlar Menyusi</span>
-                    <form >
+                    <span class="new_product_txt"><%=member.mb_nick.toUpperCase()%> Product list</span>
+
                         <table class="table table-bordered table-hover">
                             <thead class="thead-light">
                                 <th scope="col">T/r</th>
                                 <th scope="col">Product name</th>
                                 <th scope="col">Product collection</th>
                                 <th scope="col">Product size</th>
+                                <th scope="col">Product colors</th>
                                 <th scope="col">Product price</th>
                                 <th scope="col">Product amount</th>
                                 <th scope="col">Product status</th>
                             </thead>
                         <% shop_data.map((value, key) => { %>
                             <tbody style="background-color: white;">
-                                <td><%- key+1 %></td>
-                                <td><%- value.product_name %></td>
-                                <td><%- value.product_collection %></td>
-                                <td><%- value.product_size %></td>
-                                <td><%- value.product_price %></td>
-                                <td><%- value.product_left_cnt %></td>
+                                <td><%= key+1 %></td>
+                                <td><%= value.product_name %></td>
+                                <td><%= value.product_collection %></td>
+                                <td><%= value.product_size %></td>
+                                <td><%= value.product_colors %></td>
+                                <td><%= value.product_price %></td>
+                                <td><%= value.product_left_cnt %></td>
                                 <td>
-                                    <select class="spec_select" id="<%- value._id %>">
-                                        <option value="PAUSED" <%- value.product_status == "PAUSED" ? "selected": " " %> >PAUSED</option>
-                                        <option value="PROCESS" <%- value.product_status == "PROCESS" ? "selected": " " %> >PROCESS</option>
+                                    <select class="spec_select new_product_status" id="<%= value._id %>">
+                                        <option value="PAUSED" <%= value.product_status == "PAUSED" ? "selected": " " %> >PAUSED</option>
+                                        <option value="PROCESS" <%= value.product_status == "PROCESS" ? "selected": " " %> >PROCESS</option>
                                     </select>
                                 </td>
                             </tbody>
                         <% }); %>
                         </table>
-                    </form>
+
+                        <div class="long_input" style="align-items: flex-end;">
+                            <button class="btn btn-primary hiding_btn">Add product</button>
+                        </div>
+                       
                 </div>
-                <form onsubmit="return validateForm()" action="/shop/product/create" method="POST" 
+                <form onsubmit="return validateForm()" action="/shop/products/create" method="POST" 
                 class="product_container" enctype="multipart/form-data">
-                    <div class="long_input" style="align-items: flex-end; margin-bottom: 25px;">
+                <div class="long_input" style="display: flex; align-items: center">
                         <span class="new_product_txt">New product</span>
+                    </div>
+                    <div>
+                        <div class="long_input">
+                            <label for="product_name">Product price</label>
+                            <input type="text" id="product_name" placeholder="Product name" name = "product_name" class="product_name"/>
+                        </div>
+                        <input name="product_status" value="PAUSED" class="product_status" hidden>
+                    </div>
+
+                    <div class="half_input_frame">
+                        <div class="half_input">
+                            <label >Product price</label>
+                            <input type="number" id="product_price" placeholder="Product price" name = "product_price" class="product_price"/>
+                        </div>
+                        <div class="half_input">
+                            <label >Product amount</label>
+                            <input type="number" id="product_left_cnt" placeholder="Product amount" name = "product_left_cnt" class="product_left_cnt"/>
+                        </div>
+                    </div>
+
+                    <div class="half_input_frame">
+                        <div class="half_input">
+                            <label for="product_collection">Product Type</label>
+                            <select name="product_collection" class="product_collection">
+                                <option value="MEN">MAN</option>
+                                <option value="WOMEN">WOMEN</option>
+                                <option value="KIDS">KIDS</option>
+                            </select>
+                        </div>
+
+                        <div class="half_input" style="margin-left: 50px;" id="product_size">
+                            <label for="product_size">Product Size</label>
+                            <select name="product_size" id="product_size">
+                                <option value="230">230</option>
+                                <option value="235" selected>235</option>
+                                <option value="240">240</option>
+                                <option value="245">245</option>
+                                <option value="250">250</option>
+                                <option value="255">255</option>
+                                <option value="260">260</option>
+                                <option value="265">265</option>
+                                <option value="270">270</option>
+                                <option value="275">275</option>
+                                <option value="280">280</option>
+                                <option value="285">285</option>
+                            </select>
+                        </div>
+
+                        <div class="half_input" style="margin-left: 50px;" id="product_colors" >
+                            <label for="product_colors">Product colors</label>
+                            <select name="product_colors" id="product_colors">
+                                <option value="white">white</option>
+                                <option value="black" selected>black</option>
+                                <option value="red">red</option>
+                                <option value="green">green</option>
+                                <option value="yellow">yellow</option>
+                                <option value="blue">blue</option>
+                            </select>
+                        </div>                   
+                     </div>
+
+                     <div class="long_input">
+                        <label for="product_description">Product description</label>
+                        <textarea name="product_description" id="product_description" cols="30" rows="10" placeholder="productdescription"></textarea>
+                    </div>
+
+                    <div class="img_frame">
+                        <label for="">Product images</label>
+                        <div class="media_frame">
+                            <div class="upload_img_box">
+                                <img src="/image/upload.png" alt="img_1" class="1" id="image_section_1" >
+                                <input type="file" id="file" name = "product_images" class="image_one" onchange="previewFileHandler(this, 1)">
+                            </div>
+                            <div class="upload_img_box">
+                                <img src="/image/upload.png" alt="img_1" class="2" id="image_section_2" >
+                                <input type="file" id="file" name = "product_images" class="image_two" onchange="previewFileHandler(this, 2)">
+                            </div>
+                            <div class="upload_img_box">
+                                <img src="/image/upload.png" alt="img_1" class="3" id="image_section_3" >
+                                <input type="file" id="file" name = "product_images" class="image_three" onchange="previewFileHandler(this, 3)">
+                            </div>
+                            <div class="upload_img_box">
+                                <img src="/image/upload.png" alt="img_1" class="4" id="image_section_4" >
+                                <input type="file" id="file" name = "product_images" class="image_four" onchange="previewFileHandler(this, 4)">
+                            </div>
+                            <div class="upload_img_box">
+                                <img src="/image/upload.png" alt="img_1" class="5" id="image_section_5" >
+                                <input type="file" id="file" name = "product_images" class="image_five" onchange="previewFileHandler(this, 5)">
+                            </div>
+                            <input value="<%= member._id%>" name="shop_id" class="shop_mb_id " hidden>
+                        </div>
+                    </div>
+
+                    <div class="long_input" style="align-items: flex-end; margin-bottom: 25px;">
+                        <button type="submit" class="btn btn-primary" id="create_product">Submit</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+    <script>
+        $(function() {
+                
+               // yangi taomni bosganda tableni show qilishi//
+               $(".hiding_btn").on('click', ()=>{
+                   $(".product_container").slideToggle(500);
+                   $(".hiding_btn").css("display", "none");
+               });
+               //product status changer yani proccess or paused qilish uchun//
+               $(".new_product_status").on("change", async function(e){
+                   const id = e.target.id;
+                   const product_status = $(`#${id}.new_product_status`).val();
+                   const mb_id = `<%= member._id%>`;
+                   try{
+                       const url = `/shop/products/edit/${id}`
+                       const response= await axios.post(url,
+                        {id: id, product_status: product_status});
+                       const result = response.data;
+                       console.log("result:", result);
+                       if(result.state == "success"){
+                           alert("success");
+                           window.location.reload();
+                       }else{
+                           alert(result.message)
+                       }
+                   }catch(err){
+                       console.log("updateChosenProduct err", err)
+                   }
+               })
+           });
+           
+           // validationni tekshirish va biror malumot kiritilmagan bolsa alert beradi//
+           function validateForm(){
+           const shop_mb_id = $(".shop_mb_id").val(),
+               product_name = $(".product_name").val(),
+               product_size = $(".product_size").val(),
+               product_colors = $(".product_colors").val(),
+               product_price = $(".product_price").val(),
+               product_left_cnt = $(".product_left_cnt").val(),
+               product_description = $(".product_description").val(),
+               product_collection = $(".product_collection").val(),
+               product_status = $(".product_status").val()
+           if(
+               shop_mb_id == "" ||
+               product_name == "" ||
+               product_size == "" ||
+               product_colors == "" ||
+               product_price == "" ||
+               product_left_cnt == "" ||
+               product_description == "" ||
+               product_collection  == "" ||
+               product_status == ""
+           ){
+               alert("Iltimos, hamma ma'lumotlarni kiriting!");
+               return false;
+           }else{
+               return true;
+           }
+       }
+       // fileni yukshash va turini tekshirib qabul qilishi va //
+       //fileReader orqali fileni preleading qilib beradi//
+       function previewFileHandler(input, order){
+           // console.log(input);
+           const image_class_name = input.className;
+           const file = $(`.${image_class_name}`)[0].files[0],
+               fileType = file.type,
+               validImageTypes = ["image/jpg", "image/jpeg", "image/png"];
+           if(!validImageTypes.includes(fileType)){
+               alert('Iltimos ruhsat etilgan formatdagi rasmlarni yuklang: jpg, jpeg, png');
+           }else{
+               if(file){
+                   let reader = new FileReader();
+                   reader.onload = function() {
+                       $(`#image_section_${order}`)
+                       .attr("src", reader.result)
+                   }
+                   reader.readAsDataURL(file)
+               }
+           }
+       }
+   </script>
 </body>
 
 <%- include('includes/header') %>

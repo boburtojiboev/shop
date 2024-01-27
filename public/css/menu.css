@@ -1,76 +1,298 @@
-.shop_menu_frame{
-    position: relative;
-    padding-bottom: 80px;
-    width: 100%;
-    height: auto;
+.body_mane {
+  height: auto;
+  background: #2c261e;
+}
+.shop_menu_frame {
+  position: relative;
+  padding-bottom: 80px;
+  width: 80%;
+  height: 100px;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: #2c261e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #2c261e;
 }
 
-.shop_menu_frame .shop_container{
-    position: relative;
-    margin-top: 100px;
-    width: 100%;
-    height: auto;
+.shop_menu_frame .shop_container {
+  position: relative;
+  margin-top: 100px;
+  width: 100%;
+  height: auto;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.shop_container .products_table{
-    position: relative;
-    width:100%;
-    height: auto;
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.shop_container .products_table {
+  position: relative;
+  width: 100%;
+  height: auto;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.spec_select{
-    position: relative;
-    padding: 0px 7px;
-    height: 27px;
-    background: #ffffff;
-    border: 1px solid #dddddd;
-    border-radius: 8px;
-    font-family: "GT Walshein Pro";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 15px;
-    line-height: 26px;
-    color:#4f547b;
+.spec_select {
+  position: relative;
+  padding: 0px 7px;
+  height: 27px;
+  background: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+  font-family: "GT Walshein Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 26px;
+  color: #4f547b;
 }
 
-.shop_container .product_container{
-    position: relative;
-    margin-top: 20px;
-    width:100%;
-    height: auto;
+.shop_container .product_container {
+  position: relative;
+  margin-top: 20px;
+  width: 100%;
+  height: auto;
 
-    display: none;
-    flex-direction: column;
-    align-items: center;
+  display: none;
+  flex-direction: column;
+  align-items: center;
 }
 
-.long_input{
-    position: relative;
-    margin-top: 25px;
-    width:100%;
-    height: auto;
-    display: flex;
-    flex-direction: column;
+.long_input {
+  position: relative;
+  margin-top: 25px;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
 }
 
-.new_product_txt{
-    font-family: "Source Serif Pro";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 25px;
-    color: #ffffff;
+.new_product_txt {
+  font-family: "Source Serif Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 25px;
+  color: #ffffff;
+}
+.long_input {
+  position: relative;
+  margin-top: 25px;
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.long_input label {
+  font-family: "Source Serif Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 25px;
+  color: #ffffff;
+}
+
+.long_input input {
+  position: relative;
+  margin-top: 10px;
+  padding-left: 20px;
+  width: 100%;
+  height: 54px;
+  border: none;
+
+  background-color: #f7f7f7;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+
+  font-family: "GT Walsheim Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 26px;
+  color: #4f547b;
+}
+
+.login_input_frame {
+  position: relative;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.long_input label {
+  font-family: "Source Serif Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 25px;
+  color: #fff;
+}
+
+.long_input input {
+  position: relative;
+  margin-top: 10px;
+  padding-left: 20px;
+  width: 100%;
+  height: 54px;
+  border: none;
+
+  background: #f7f7f7;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+
+  font-family: "GT Walsheim Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 25px;
+  color: #4f547b;
+}
+
+.product_container .half_input_frame {
+  position: relative;
+  margin-top: 25px;
+  width: 100%;
+  height: auto;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.half_input_frame .half_input {
+  position: relative;
+  width: 49%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.half_input label {
+  font-family: "Source Serif Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 25px;
+  color: #fff;
+}
+
+.half_input input {
+  position: relative;
+  margin-top: 10px;
+  padding-left: 20px;
+  width: 100%;
+  height: 54px;
+  border: none;
+
+  background: #f7f7f7;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+}
+
+.half_input_frame select {
+  position: relative;
+  margin-top: 10px;
+  padding: 0 20px;
+  width: 100%;
+  height: 55px;
+  display: flex;
+  border: none;
+  background: #f7f7f7;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+
+  font-family: "GT Walsheim Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 26px;
+  color: #4f547b;
+}
+
+.long_input textarea {
+  position: relative;
+  margin-top: 10px;
+  padding: 20px;
+  width: 100%;
+  height: 200px;
+  display: flex;
+  border: none;
+
+  background: #f7f7f7;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+
+  font-family: "GT Walsheim Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 26px;
+  color: #4f547b;
+}
+
+.img_frame {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.img_frame label {
+  margin-top: 30px;
+  font-family: "Source Serif Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 25px;
+  color: #fff;
+}
+
+.media_frame {
+  position: relative;
+  margin-top: 10px;
+  width: 100%;
+  height: 250px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.media_frame .upload_img_box {
+  position: relative;
+
+  width: 19%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.upload_img_box img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  display: block;
+  border-radius: 10px;
+}
+
+#file {
+  opacity: 0;
+  border: none;
+  border-radius: 10px;
+  background: grey;
+  position: absolute;
+  left: 0px;
+  width: 100%;
+  top: 0px;
+  height: 100%;
+  cursor: pointer;
 }

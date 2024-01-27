@@ -27,7 +27,7 @@ shopController.getMyShopProduct = async (req, res) => {
     res.render("shop-menu", {shop_data: data});
   } catch (err) {
     console.log(`ERROR, cont/getMyShopProduct, ${err.message}`);
-    res.json({ state: "fail", message: err.message });
+    res.redirect("/shop")
   }
 };
 
