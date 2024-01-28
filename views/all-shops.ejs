@@ -1,0 +1,69 @@
+<%- include('includes/header') %>
+<link rel="stylesheet" type="text/css" href="/css/menu.css">
+
+<body>
+  <div id="main_container">
+    <div class="group_name">
+      <ul class="nav justify-content-center">
+        <li class="nav-item" style="cursor: pointer">
+          <a class="nav-link active" href="/shop">Home</a>
+        </li>
+        <li class="nav-item" style="cursor: pointer">
+          <a class="nav-link" href="/shop/all-shop">AllShops</a>
+        </li>
+        <li
+          class="nav-item"
+          style="cursor: pointer"
+          onclick="return confirm('Do you want to logout?')"
+        >
+          <a class="nav-link" href="/shop/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="shop_menu_frame">
+      <div class="shop_container">
+        <div class="shop_table">
+          <span class="new_product_txt"> All shop list</span>
+          <table class="table table-hover table-sm">
+            <thead class="thead-light">
+              <tr class="thead-light">
+                <th scope="col">list</th>
+                <th scope="col">Shop name</th>
+                <th scope="col">Shop phone number</th>
+                <th scope="col">Shop top</th>
+                <th scope="col">Shop status</th>
+              </tr>
+            </thead>
+
+            <tbody style="background-color: #fff">
+              <td>1</td>
+              <td>magazin</td>
+              <td>998999059949</td>
+              <td style="width: 13%">
+                <!-- <label for="" class="switch">
+                  <input type="checkbox" class="mb_top" />
+                  <span class="slider around"></span>
+                </label> -->
+                <label class="slider">
+                  <input type="checkbox" class="mb_top" />
+                  <span class="slider-switch round"></span>
+                </label>
+              </td>
+              <td style="width: 13%">
+                <select class="spec_select mb_status" name="" id="">
+                  <option value="ONPAUSE">ONPAUSE</option>
+                  <option value="ACTIVE">ACTIVE</option>
+                  <option value="DELETED">DELETED</option>
+                </select>
+              </td>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+
+<%- include('includes/footer') %>

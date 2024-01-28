@@ -124,3 +124,27 @@ shopController.checkSessions = (req, res) => {
     res.json({state: 'fail', message: "You are not authenticated"});  
   }
 };
+
+shopController.validateAdmin = (req, res, next) => {
+  if (req.session?.member?.mb_type === "ADMIN") {
+    req.member = req.session.member;
+    next();
+  } else {
+    const html = `<script>
+           alert('Admin page: Permission denied');
+           window.location.replace('/shop');
+         </script>`;
+    res.end(html);
+  }
+};
+
+shopController.getAllShops = (req, res) => {
+  try {
+    console.log("GET: cont/getAllShops");
+    //todo: hamma restaranlarni chaqirib olamiz
+    res.render("all-shops");
+  } catch (err) {
+    console.log(`ERROR, cont/getAllShops, ${err.message}`);
+    res.json({ state: "fail", message: err.message });
+  }
+};
