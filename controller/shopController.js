@@ -2,6 +2,7 @@ const Member = require("../models/Member");
 const Product = require("../models/Product");
 const Definer = require("../lib/mistake");
 const assert = require("assert");
+const Shop = require("../models/Shop");
 
 let shopController = module.exports;
 
@@ -138,13 +139,31 @@ shopController.validateAdmin = (req, res, next) => {
   }
 };
 
-shopController.getAllShops = (req, res) => {
+shopController.getAllShops = async(req, res) => {
   try {
     console.log("GET: cont/getAllShops");
-    //todo: hamma restaranlarni chaqirib olamiz
-    res.render("all-shops");
+    const shop = new Shop();
+  const shops_data = await shop.getAllShopsData();
+   res.render("all-shops", { shops_data: shops_data });
   } catch (err) {
     console.log(`ERROR, cont/getAllShops, ${err.message}`);
+    res.json({ state: "fail", message: err.message });
+  }
+};
+
+shopController.updateShopByAdmin = async (req, res) => {
+  try {
+    console.log("POST cont/updateShopByAdmin");
+
+    const shop = new Shop();
+
+    const result = await shop.updateShopByAdminData(req.body);
+
+    // console.log(result);
+
+    await res.json({ state: "success", data: result });
+  } catch (err) {
+    console.log("ERROR, cont/updateShopByAdmin");
     res.json({ state: "fail", message: err.message });
   }
 };

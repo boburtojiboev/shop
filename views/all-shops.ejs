@@ -36,33 +36,63 @@
               </tr>
             </thead>
 
+             <% shops_data.map((value, key)=>{ %>
             <tbody style="background-color: #fff">
-              <td>1</td>
-              <td>magazin</td>
-              <td>998999059949</td>
+             <td><%= key + 1 %></td>
+              <td><%= value.mb_nick %></td>
+              <td><%= value.mb_phone %></td>
               <td style="width: 13%">
-                <!-- <label for="" class="switch">
-                  <input type="checkbox" class="mb_top" />
-                  <span class="slider around"></span>
-                </label> -->
-                <label class="slider">
-                  <input type="checkbox" class="mb_top" />
-                  <span class="slider-switch round"></span>
+                <label class="switch">
+                  <input type="checkbox" class="mb_top" id="<%= value._id %>" 
+                  <%= value.mb_top === 'Y' ? 'checked' : '' %>/>
+                  <span class="slider round"></span>
                 </label>
               </td>
               <td style="width: 13%">
-                <select class="spec_select mb_status" name="" id="">
-                  <option value="ONPAUSE">ONPAUSE</option>
-                  <option value="ACTIVE">ACTIVE</option>
-                  <option value="DELETED">DELETED</option>
+               <select class="spec_select, mb_status" id="<%= value._id %>">
+                  <option value="ONPAUSE" <%= value.mb_status === 'ONPAUSE' ? 'selected' : '' %> >ONPAUSE</option>
+                  <option value="ACTIVE" <%= value.mb_status === 'ACTIVE' ? 'selected' : '' %> >ACTIVE</option>
+                  <option value="DELETED" <%= value.mb_status === 'DELETED' ? 'selected' : '' %> >DELETED</option>
                 </select>
               </td>
             </tbody>
+            <% }); %>
           </table>
         </div>
       </div>
     </div>
   </div>
+
+  <script>
+    $(function(){
+        //manipulate shops top features
+        $(".mb_top").on("change", (e)=>{
+            const id = e.target.id;
+            const mb_top = e.target.checked ? "Y" : "N";
+            console.log(mb_top);
+            axios.post('/shop/all-shop/edit', {id: id, mb_top: mb_top})
+            .then(response=>{
+                const result = response.data; 
+                if(result.state === 'success') alert("Successfully updated!")
+                else alert(result.message)
+            })
+            .catch(err=> console.log(err))
+        })
+  // manipulate shops status features
+        $(".mb_status").on("change", (e)=>{
+            const id = e.target.id;
+            const mb_status = $(`#${id}.mb_status`).val();
+            console.log('mb_status', mb_status);
+            axios.post('/shop/all-shop/edit', {id: id, mb_status: mb_status})
+            .then(response => {
+                const result = response.data; 
+                if(result.state === 'success') alert("Successfully updated!")
+                else alert(result.message);
+            })
+            .catch(err=> console.log(err));
+        });
+    });
+  </script>
 </body>
 
 

@@ -43,4 +43,10 @@ router_bssr.get(
   shopController.getAllShops
 );
 
+router_bssr.post(
+  "/all-shop/edit",
+  shopController.validateAdmin,
+  shopController.updateShopByAdmin
+);
+
 module.exports = router_bssr;
