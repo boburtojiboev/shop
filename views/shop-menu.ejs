@@ -32,6 +32,7 @@
                                 <th scope="col">Product colors</th>
                                 <th scope="col">Product price</th>
                                 <th scope="col">Product amount</th>
+                                <th scope="col">Product discount</th>
                                 <th scope="col">Product status</th>
                             </thead>
                         <% shop_data.map((value, key) => { %>
@@ -43,6 +44,31 @@
                                 <td><%= value.product_colors %></td>
                                 <td><%= value.product_price %></td>
                                 <td><%= value.product_left_cnt %></td>
+                                <td>
+                                    <select class="spec_select new_product_discount" id="<%= value._id %>">
+                                        <option value="0" <%= value.product_discount == "0" ? "selected": " " %> >0%</option>
+                                        <option value="5" <%= value.product_discount == "5" ? "selected": " " %> >5%</option>
+                                        <option value="10" <%= value.product_discount == "10" ? "selected": " " %> >10%</option>
+                                        <option value="15" <%= value.product_discount == "15" ? "selected": " " %> >15%</option>
+                                        <option value="20" <%= value.product_discount == "20" ? "selected": " " %> >20%</option>
+                                        <option value="25" <%= value.product_discount == "25" ? "selected": " " %> >25%</option>
+                                        <option value="30" <%= value.product_discount == "30" ? "selected": " " %> >30%</option>
+                                        <option value="35" <%= value.product_discount == "35" ? "selected": " " %> >35%</option>
+                                        <option value="40" <%= value.product_discount == "40" ? "selected": " " %> >40%</option>
+                                        <option value="45" <%= value.product_discount == "45" ? "selected": " " %> >45%</option>
+                                        <option value="50" <%= value.product_discount == "50" ? "selected": " " %> >50%</option>
+                                        <option value="55" <%= value.product_discount == "55" ? "selected": " " %> >55%</option>
+                                        <option value="60" <%= value.product_discount == "60" ? "selected": " " %> >60%</option>
+                                        <option value="65" <%= value.product_discount == "65" ? "selected": " " %> >65%</option>
+                                        <option value="70" <%= value.product_discount == "70" ? "selected": " " %> >70%</option>
+                                        <option value="75" <%= value.product_discount == "75" ? "selected": " " %> >75%</option>
+                                        <option value="80" <%= value.product_discount == "80" ? "selected": " " %> >80%</option>
+                                        <option value="85" <%= value.product_discount == "85" ? "selected": " " %> >85%</option>
+                                        <option value="90" <%= value.product_discount == "90" ? "selected": " " %> >90%</option>
+                                        <option value="95" <%= value.product_discount == "95" ? "selected": " " %> >95%</option>
+                                        <option value="100" <%= value.product_discount == "100" ? "selected": " " %> >100%</option>
+                                    </select>
+                                </td>
                                 <td>
                                     <select class="spec_select new_product_status" id="<%= value._id %>">
                                         <option value="PAUSED" <%= value.product_status == "PAUSED" ? "selected": " " %> >PAUSED</option>
@@ -65,7 +91,7 @@
                     </div>
                     <div>
                         <div class="long_input">
-                            <label for="product_name">Product price</label>
+                            <label for="product_name">Product name</label>
                             <input type="text" id="product_name" placeholder="Product name" name = "product_name" class="product_name"/>
                         </div>
                         <input name="product_status" value="PAUSED" class="product_status" hidden>
@@ -180,6 +206,27 @@
                        const url = `/shop/products/edit/${id}`
                        const response= await axios.post(url,
                         {id: id, product_status: product_status});
+                       const result = response.data;
+                       console.log("result:", result);
+                       if(result.state == "success"){
+                           alert("success");
+                           window.location.reload();
+                       }else{
+                           alert(result.message)
+                       }
+                   }catch(err){
+                       console.log("updateChosenProduct err", err)
+                   }
+               })
+                //    product discount yangi malumot qoshish yani ozgartirish
+         $(".new_product_discount").on("change", async function(e){
+                   const id = e.target.id;
+                   const product_discount = $(`#${id}.new_product_discount`).val();
+                   const mb_id = `<%= member._id%>`;
+                   try{
+                       const url = `/shop/products/edit/${id}`
+                       const response= await axios.post(url,
+                        {id: id, product_discount: product_discount});
                        const result = response.data;
                        console.log("result:", result);
                        if(result.state == "success"){

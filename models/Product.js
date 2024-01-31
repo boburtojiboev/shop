@@ -63,7 +63,6 @@ class Product {
       throw err;
     }
   }
-  
   async getAllProductDataShop(member) {
     try {
       member._id = shapeIntoMongooseObjectId(member._id);
