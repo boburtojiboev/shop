@@ -7,6 +7,23 @@ const Shop = require("../models/Shop");
 let shopController = module.exports;
 
 
+shopController.getShops = async (req, res) => {
+   try {
+     console.log("GET: cont/getShops");
+     const data = req.query;
+     const shop = new Shop();
+     const result = await shop.getShopsData(req.member, data);
+     res.json({ state: "success", data: result });
+   } catch (err) {
+     console.log(`ERROR, cont/getShops, ${err.message}`);
+     res.json({ state: "fail", message: err.message });
+   }
+};
+
+/******************************************
+ *      BSSR related methods              *
+ ******************************************/
+
 shopController.home = (req, res) => {
   try {
     console.log("GET/home");
