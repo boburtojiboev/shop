@@ -2,6 +2,7 @@ const assert = require("assert");
 const MemberModel = require("../schema/member.model");
 const Definer = require("../lib/mistake");
 const { shapeIntoMongooseObjectId } = require("../lib/config");
+const Member = require("./Member");
 
 class Shop {
   constructor() {
@@ -38,6 +39,29 @@ class Shop {
 
       const result = await this.memberModel.aggregate(aggregationQuery).exec();
       assert.ok(result, Definer.general_err1);
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async getChosenShopData(member, id) {
+    try {
+      id = shapeIntoMongooseObjectId(id);
+
+      if (member) {
+        const member_object = new Member();
+        await member_object.viewChosenItemByMember(member, id, "member");
+      }
+      const result = await this.memberModel
+        .findOne({
+          _id: id,
+          mb_status: "ACTIVE",
+        })
+        .exec();
+      assert.ok(result, Definer.general_err1);
+
+      //todo: increase view if member has not seen the target before
       return result;
     } catch (err) {
       throw err;

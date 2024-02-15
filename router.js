@@ -39,5 +39,11 @@ router.get(
   shopController.getShops
 );
 
+router.get(
+  "/shops/:id",
+  memberController.retrieveAuthMember,
+  shopController.getChosenShop
+);
+
 
 module.exports = router;

@@ -20,6 +20,19 @@ shopController.getShops = async (req, res) => {
    }
 };
 
+shopController.getChosenShop = async (req, res) => {
+  try {
+    console.log("GET: cont/getChosenShopt");
+    const id = req.params.id;
+    const shop = new Shop();
+    const result = await shop.getChosenShopData(req.member, id);
+    res.json({ state: "success", data: result });
+  } catch (err) {
+    console.log(`ERROR, cont/getChosenShop, ${err.message}`);
+    res.json({ state: "fail", message: err.message });
+  }
+};
+
 /******************************************
  *      BSSR related methods              *
  ******************************************/
@@ -137,7 +150,7 @@ shopController.validateAuthShop = (req, res, next) => {
 
 shopController.checkSessions = (req, res) => {
   if (req.session?.member){
-      res.json({state: 'succeed', data: req.session.member});
+      res.json({state: 'success', data: req.session.member});
   } else {
     res.json({state: 'fail', message: "You are not authenticated"});  
   }
