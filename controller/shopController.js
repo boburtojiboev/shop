@@ -3,6 +3,7 @@ const Product = require("../models/Product");
 const Definer = require("../lib/mistake");
 const assert = require("assert");
 const Shop = require("../models/Shop");
+const Event = require("../models/Event");
 
 let shopController = module.exports;
 
@@ -61,6 +62,20 @@ shopController.getMyShopProduct = async (req, res) => {
     res.redirect("/shop")
   }
 };
+
+shopController.getMyShopEvents = async (req, res) => {
+  try {
+    console.log("GET: cont/getMyShopProduct");
+    // todo get my shop product
+    const event = new Event();
+    const data = await event.getAllEventDataShop(res.locals.member);
+    res.render("event-menu", { event_data: data });
+  } catch (err) {
+    console.log(`ERROR, cont/getMyShopProduct, ${err.message}`);
+    res.redirect("/shop");
+  }
+};
+
 
 shopController.getSignupMyShop = async (req, res) => {
   try {

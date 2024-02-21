@@ -10,7 +10,7 @@ body {
 .group_name {
   position: absolute;
   z-index: 10000;
-  top: 1%;
+  top: 10px;
   color: #efefee;
   font-size: xx-large;
   font-family: monospace;

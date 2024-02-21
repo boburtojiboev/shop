@@ -1,0 +1,212 @@
+<%- include('includes/header') %>
+<link rel="stylesheet" type="text/css" href="/css/menu.css">
+
+<body class="body_mane" >
+    <div id="main_container" c>
+        <div class="group_name">
+            <ul class="nav justify-content-center">
+                <li class="nav-item" style="cursor:pointer;">
+                    <a href="/shop" class="nav-link active">Home</a>
+                </li>
+                <li class="nav-item" style="cursor:pointer;">
+                    <a href="/shop/products/menu" class="nav-link">MyShops</a>
+                </li>
+                 <li class="nav-item" style="cursor:pointer;">
+                    <a href="/shop/events/menu" class="nav-link">MyEvents</a>
+                </li>
+                <li class="nav-item" style="cursor:pointer;" onclick="return confirm('Do you want to logout?')">
+                    <a href="/shop/logout" class="nav-link">Logout</a>
+                </li>
+            </ul>
+        </div>
+    
+
+        <div class="shop_menu_frame">
+            <div class="shop_container">
+                <div class="products_table">
+                    <span class="new_product_txt"><%=member.mb_nick.toUpperCase()%> Event list</span>
+
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-light">
+                                <th scope="col">T/r</th>
+                                <th scope="col">Event name</th>
+                                <th scope="col">Event time</th>
+                                <th scope="col">Event address</th>
+                                <th scope="col">Event phone</th>
+                                <th scope="col">Event description</th>
+                                <th scope="col">Event status</th>
+                            </thead>
+                        <% event_data.map((value, key) => { %>
+                            <tbody style="background-color: white;">
+                                <td><%= key+1 %></td>
+                                <td><%= value.event_name %></td>
+                                <td><%= value.event_time %></td>
+                                <td><%= value.event_address %></td>
+                                <td><%= value.event_phone %></td>
+                                <td><%= value.event_description %></td>
+                                <td>
+                                    <select class="spec_select new_event_status" id="<%= value._id %>">
+                                        <option value="PAUSED" <%= value.event_status == "PAUSED" ? "selected": " " %> >PAUSED</option>
+                                        <option value="PROCESS" <%= value.event_status == "PROCESS" ? "selected": " " %> >PROCESS</option>
+                                    </select>
+                                </td>
+                            </tbody>
+                        <% }); %>
+                        </table>
+
+                        <div class="long_input" style="align-items: flex-end;">
+                            <button class="btn btn-primary hiding_btn">Add event</button>
+                        </div>
+                       
+                </div>
+                <form onsubmit="return validateForm()" action="/shop/events/create" method="POST" 
+                class="product_container" enctype="multipart/form-data">
+                <div class="long_input" style="display: flex; align-items: center">
+                        <span class="new_product_txt">New event</span>
+                    </div>
+                    <div>
+                        <div class="long_input">
+                            <label for="event_name">Event name</label>
+                            <input type="text" id="event_name" placeholder="Event name" name = "event_name" class="event_name"/>
+                        </div>
+                        <input name="event_status" value="PAUSED" class="event_status" hidden>
+                    </div>
+                    
+                    <div class="half_input_frame">
+                     <div class="half_input">
+                            <label for="event_time">Event time</label>
+                            <input type="text" id="event_time" placeholder="Event time" name = "event_time" class="event_time"/>
+                     </div>
+
+                     <div class="half_input" style="margin-left: 10px; margin-right: 10px;">
+                            <label for="event_address">Event address</label>
+                            <input type="text" id="event_address" placeholder="Event address" name = "event_address" class="event_address"/>
+                     </div>
+                      <div class="half_input" >
+                            <label for="event_phone">Event Phone</label>
+                            <input type="number" id="event_phone" placeholder="Event phone" name = "event_phone" class="event_phone"/>
+                     </div>
+                    </div>
+
+                    <div class="long_input">
+                     <div class="half_input">
+                            <label for="event_description">Event description</label>
+                            <input type="text" id="event_description" placeholder="Event description" name = "event_description" class="event_description"/>
+                     </div>
+                    </div>
+
+                    <div class="img_frame">
+                        <label for="">Event images</label>
+                        <div class="media_frame">
+                            <div class="upload_img_box">
+                                <img src="/image/upload.png" alt="img_1" class="1" id="image_section_1" >
+                                <input type="file" id="file" name = "event_images" class="image_one" onchange="previewFileHandler(this, 1)">
+                            </div>
+                            <div class="upload_img_box">
+                                <img src="/image/upload.png" alt="img_1" class="2" id="image_section_2" >
+                                <input type="file" id="file" name = "event_images" class="image_two" onchange="previewFileHandler(this, 2)">
+                            </div>
+                            <div class="upload_img_box">
+                                <img src="/image/upload.png" alt="img_1" class="3" id="image_section_3" >
+                                <input type="file" id="file" name = "event_images" class="image_three" onchange="previewFileHandler(this, 3)">
+                            </div>
+                            <div class="upload_img_box">
+                                <img src="/image/upload.png" alt="img_1" class="4" id="image_section_4" >
+                                <input type="file" id="file" name = "event_images" class="image_four" onchange="previewFileHandler(this, 4)">
+                            </div>
+                            <div class="upload_img_box">
+                                <img src="/image/upload.png" alt="img_1" class="5" id="image_section_5" >
+                                <input type="file" id="file" name = "event_images" class="image_five" onchange="previewFileHandler(this, 5)">
+                            </div>
+                            <input value="<%= member._id%>" name="shop_id" class="shop_mb_id " hidden>
+                        </div>
+                    </div>
+
+                    <div class="long_input" style="align-items: flex-end; margin-bottom: 25px;">
+                        <button type="submit" class="btn btn-primary" id="create_product">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function() {
+                
+               // yangi eventni bosganda tableni show qilishi//
+               $(".hiding_btn").on('click', ()=>{
+                   $(".product_container").slideToggle(500);
+                   $(".hiding_btn").css("display", "none");
+               });
+               //event status changer yani proccess or paused qilish uchun//
+               $(".new_event_status").on("change", async function(e){
+                   const id = e.target.id;
+                   const event_status = $(`#${id}.new_event_status`).val();
+                   const mb_id = `<%= member._id%>`;
+                   try{
+                       const url = `/shop/events/edit/${id}`
+                       const response= await axios.post(url,
+                        {id: id, event_status: event_status});
+                       const result = response.data;
+                       console.log("result:", result);
+                       if(result.state == "success"){
+                           alert("success");
+                           window.location.reload();
+                       }else{
+                           alert(result.message)
+                       }
+                   }catch(err){
+                       console.log("updateChosenEvent err", err)
+                   }
+               })
+           });
+           
+           // validationni tekshirish va biror malumot kiritilmagan bolsa alert beradi//
+           function validateForm(){
+           const shop_mb_id = $(".shop_mb_id").val(),
+               event_name = $(".event_name").val(),
+               event_time = $(".event_time").val(),
+               event_address = $(".event_address").val(),
+               event_phone = $(".event_phone").val(),
+               event_description = $(".event_description").val(),     
+               product_status = $(".product_status").val()
+           if(
+               shop_mb_id == "" ||
+               event_name == "" ||
+               event_time == "" ||
+               event_address == "" ||
+               event_phone == "" ||
+               event_description == "" ||
+               product_status == ""
+           ){
+               alert("Iltimos, hamma ma'lumotlarni kiriting!");
+               return false;
+           }else{
+               return true;
+           }
+       }
+       // fileni yukshash va turini tekshirib qabul qilishi va //
+       //fileReader orqali fileni preleading qilib beradi//
+       function previewFileHandler(input, order){
+           // console.log(input);
+           const image_class_name = input.className;
+           const file = $(`.${image_class_name}`)[0].files[0],
+               fileType = file.type,
+               validImageTypes = ["image/jpg", "image/jpeg", "image/png"];
+           if(!validImageTypes.includes(fileType)){
+               alert('Iltimos ruhsat etilgan formatdagi rasmlarni yuklang: jpg, jpeg, png');
+           }else{
+               if(file){
+                   let reader = new FileReader();
+                   reader.onload = function() {
+                       $(`#image_section_${order}`)
+                       .attr("src", reader.result)
+                   }
+                   reader.readAsDataURL(file)
+               }
+           }
+       }
+   </script>
+</body>
+
+<%- include('includes/header') %>
