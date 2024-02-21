@@ -5,6 +5,18 @@ const { Script } = require("vm");
 
 let productController = module.exports;
 
+productController.getProductsAllShops = async (req, res) => {
+  try {
+    console.log("POST: cont/getProductsAllShops");
+    const product = new Product();
+    const result = await product.getProductsAllShopsData(req.member, req.body);
+    res.json({ state: "success", data: result });
+  } catch (err) {
+    console.log(`ERROR, cont/getProductsAllShops, ${err.message}`);
+    res.json({ state: "fail", message: err.message });
+  }
+};
+
 productController.getAllProducts = async (req, res) => {
   try {
      console.log("POST: cont/getAllProducts");

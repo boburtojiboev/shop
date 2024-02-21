@@ -21,6 +21,11 @@ router.get(
 
 // Product related routers
 router.post(
+  "/productsall",
+  memberController.retrieveAuthMember,
+  productController.getProductsAllShops
+);
+router.post(
   "/products",
   memberController.retrieveAuthMember,
   productController.getAllProducts

@@ -1,12 +1,60 @@
 const ProductModel = require("../schema/product.model");
 const assert = require("assert");
-const { shapeIntoMongooseObjectId } = require("../lib/config");
+const {
+  product_collection_enums,
+  shapeIntoMongooseObjectId,
+} = require("../lib/config");
 const Definer = require("../lib/mistake");
 const Member = require("./Member");
 
 class Product {
   constructor() {
     this.productModel = ProductModel;
+  }
+
+  async getProductsAllShopsData(member, data) {
+    try {
+      const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
+
+      const match = {
+        product_status: "PROCESS",
+        product_collection: data.product_collection,
+        product_size: data.product_size * 1,
+      };
+
+      // const match = {
+      //   product_collection:
+      //     data.product_collection ? {product_collection: data.product_collection}: {product_collection: {product_collection_enums}}
+      //   // product_size: data.product_size * 1,
+      // };
+
+      // if (data.product_collection === "all") {
+      //   match["product_collection"] = [product_collection_enums];
+      // } else match["product_collection"] = data.product_collection;
+      // if (data.product_size === "all") {
+      //   match["product_size"] = [product_size_enums];
+      // } else match["product_size"] = data.product_size;
+
+      const sort =
+        data.order === "product_price"
+          ? { [data.order]: 1 }
+          : { [data.order]: -1 };
+
+      const result = await this.productModel
+        .aggregate([
+          { $match: match },
+          { $sort: sort },
+          { $skip: (data.page * 1 - 1) * data.limit },
+          { $limit: data.limit * 1 },
+          // todo: check auth user product likes
+        ])
+        .exec();
+      // assert.ok(result, Definer.general_err1);
+      console.log("result::", result);
+      return result;
+    } catch (err) {
+      throw err;
+    }
   }
 
   async getAllProductsData(member, data) {
@@ -47,7 +95,7 @@ class Product {
 
       if (member) {
         const member_obj = new Member();
-       await member_obj.viewChosenItemByMember(member, id, "product");
+        await member_obj.viewChosenItemByMember(member, id, "product");
       }
 
       const result = await this.productModel
