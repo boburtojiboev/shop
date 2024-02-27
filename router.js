@@ -4,6 +4,7 @@ const memberController = require("./controller/memberController");
 const productController = require("./controller/productController");
 const shopController = require("./controller/shopController");
 const eventController = require("./controller/eventController");
+const orderController = require("./controller/orderController.js");
 
 
 /********************************
@@ -65,5 +66,11 @@ router.get(
   eventController.getChosenEvent
 );
 
+// Order related routers
+router.post(
+  "/orders/create",
+  memberController.retrieveAuthMember,
+  orderController.createOrder
+);
 
 module.exports = router;
