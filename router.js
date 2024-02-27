@@ -3,6 +3,8 @@ const router = express.Router();
 const memberController = require("./controller/memberController");
 const productController = require("./controller/productController");
 const shopController = require("./controller/shopController");
+const eventController = require("./controller/eventController");
+
 
 /********************************
  *         REST API             *
@@ -48,6 +50,13 @@ router.get(
   "/shops/:id",
   memberController.retrieveAuthMember,
   shopController.getChosenShop
+);
+
+// Event related routers
+router.post(
+  "/events",
+  memberController.retrieveAuthMember,
+  eventController.getEvents
 );
 
 

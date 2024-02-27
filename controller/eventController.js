@@ -5,6 +5,23 @@ const { Script } = require("vm");
 
 let eventController = module.exports;
 
+eventController.getEvents = async (req, res) => {
+  try {
+    console.log("POST: cont/getEvents");
+    const event = new Event();
+    const result = await event.getEventsData(req.member, req.body);
+    res.json({ state: "success", data: result });
+  } catch (err) {
+    console.log(`ERROR, cont/getEvents, ${err.message}`);
+    res.json({ state: "fail", message: err.message });
+  }
+};
+
+
+/******************************************
+ *      BSSR related methods              *
+ ******************************************/
+
 eventController.addNewEvent = async (req, res) => {
   try {
     console.log("POST: cont/addNewEvent");
