@@ -5,6 +5,9 @@ const productController = require("./controller/productController");
 const shopController = require("./controller/shopController");
 const eventController = require("./controller/eventController");
 const orderController = require("./controller/orderController.js");
+const communityController = require("./controller/communityController.js");
+const uploader_community = require("./utils/upload-multer.js")("community");
+const uploader_member = require("./utils/upload-multer.js")("members");
 
 
 /********************************
@@ -83,6 +86,19 @@ router.post(
   "/orders/edit",
   memberController.retrieveAuthMember,
   orderController.editChosenOrder
+);
+
+// Community related router
+router.post(
+  "/community/image",
+  uploader_community.single("community_image"),
+  communityController.imageInsertion
+);
+
+router.post(
+  "/community/create",
+  memberController.retrieveAuthMember,
+  communityController.createArticle
 );
 
 module.exports = router;
