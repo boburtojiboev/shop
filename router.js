@@ -107,4 +107,10 @@ router.get(
   communityController.getMemberArticles
 );
 
+router.get(
+  "/community/target",
+  memberController.retrieveAuthMember,
+  communityController.getArticles
+);
+
 module.exports = router;
