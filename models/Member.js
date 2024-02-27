@@ -84,7 +84,7 @@ class Member {
       const isValid = await view.validateChosenTarget(view_ref_id, group_type);
       assert.ok(isValid, Definer.general_err2);
 
-      // logged use has seen target before
+      // logged user has seen target before
       const doesExist = await view.checkViewExistance(view_ref_id);
       console.log("doesExist:", doesExist);
 

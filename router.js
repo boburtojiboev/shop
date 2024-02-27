@@ -59,5 +59,11 @@ router.post(
   eventController.getEvents
 );
 
+router.get(
+  "/events/:id",
+  memberController.retrieveAuthMember,
+  eventController.getChosenEvent
+);
+
 
 module.exports = router;

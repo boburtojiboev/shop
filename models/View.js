@@ -1,12 +1,14 @@
 const ViewModel = require("../schema/view.model");
 const MemberModel = require("../schema/member.model");
 const ProductModel = require("../schema/product.model");
+const EventModel = require("../schema/event.model");
 
 class View {
   constructor(mb_id) {
     this.viewModel = ViewModel;
     this.memberModel = MemberModel;
     this.productModel = ProductModel;
+    this.eventModel = EventModel;
     this.mb_id = mb_id;
   }
 
@@ -26,7 +28,15 @@ class View {
           result = await this.productModel
             .findById({
               _id: view_ref_id,
-              mb_status: "PROCESS",
+              product_status: "PROCESS",
+            })
+            .exec();
+          break;
+        case "event":
+          result = await this.eventModel
+            .findById({
+              _id: view_ref_id,
+              event_status: "PROCESS",
             })
             .exec();
           break;
@@ -76,6 +86,16 @@ class View {
                 _id: view_ref_id,
               },
               { $inc: { product_views: 1 } }
+            )
+            .exec();
+          break;
+        case "event":
+          await this.eventModel
+            .findByIdAndUpdate(
+              {
+                _id: view_ref_id,
+              },
+              { $inc: { event_views: 1 } }
             )
             .exec();
           break;

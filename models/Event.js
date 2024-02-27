@@ -38,6 +38,30 @@ class Event {
     }
   }
 
+  async getChosenEventData(member, id) {
+    try {
+      const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
+      id = shapeIntoMongooseObjectId(id);
+
+      if (member) {
+        const member_obj = new Member();
+        await member_obj.viewChosenItemByMember(member, id, "event");
+      }
+
+      const result = await this.eventModel
+        .aggregate([
+          { $match: { _id: id, event_status: "PROCESS" } },
+          // todo: check auth user product likes
+        ])
+        .exec();
+
+      assert.ok(result, Definer.general_err1);
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async addNewEventData(data, member) {
     try {
       data.shop_mb_id = shapeIntoMongooseObjectId(member._id);

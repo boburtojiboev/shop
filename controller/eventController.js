@@ -17,6 +17,19 @@ eventController.getEvents = async (req, res) => {
   }
 };
 
+eventController.getChosenEvent = async (req, res) => {
+  try {
+    console.log("GET: cont/getChosenEvent");
+    const event = new Event();
+    const id = req.params.id;
+    const result = await event.getChosenEventData(req.member, id);
+    res.json({ state: "success", data: result });
+  } catch (err) {
+    console.log(`ERROR, cont/getChosenEvent, ${err.message}`);
+    res.json({ state: "fail", message: err.message });
+  }
+};
+
 
 /******************************************
  *      BSSR related methods              *
