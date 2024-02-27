@@ -128,6 +128,26 @@ class Order {
       throw err;
     }
   }
+
+  async editChosenOrderData(member, data) {
+    try {
+      const mb_id = shapeIntoMongooseObjectId(member._id),
+        order_id = shapeIntoMongooseObjectId(data.order_id),
+        order_status = data.order_status.toUpperCase();
+
+      const result = await this.ordermodel.findOneAndUpdate(
+        { mb_id: mb_id, _id: order_id },
+        { order_status: order_status },
+        { runValidators: true, lean: true, returnDocument: "after" }
+      );
+      console.log(result);
+
+      assert.ok(result, Definer.order_err3);
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = Order;
