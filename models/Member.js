@@ -1,4 +1,5 @@
 const MemberModel = require("../schema/member.model");
+const CommentModel = require("../schema/comment.model");
 const Definer = require("../lib/mistake");
 const assert = require("assert");
 const bcrypt = require("bcryptjs");
@@ -9,10 +10,12 @@ const {
 } = require("../lib/config");
 const View = require("./View");
 const Like = require("./Like");
+const Comment = require("./Comment");
 
 class Member {
   constructor() {
     this.memberModel = MemberModel;
+    this.commentModel = CommentModel;
   }
   async signupData(input) {
     try {
@@ -162,6 +165,63 @@ class Member {
         })
         .exec();
       assert.ok(result, Definer.general_err1);
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  // comment
+  async createCommentData(member, data) {
+    try {
+      const comment_ref_id = shapeIntoMongooseObjectId(data.comment_ref_id);
+      const mb_id = shapeIntoMongooseObjectId(member._id);
+      const comment = new Comment(mb_id);
+      const group_type = data.group_type;
+      const content = data.content;
+      const isValid = await comment.validateChosenTarger(
+        comment_ref_id,
+        group_type
+      );
+      assert.ok(isValid, Definer.general_err2);
+
+      const result = await comment.insertMemberReview(
+        comment_ref_id,
+        group_type,
+        content
+      );
+      assert.ok(result, Definer.general_err1);
+
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async getCommentsData(data) {
+    try {
+      const comment_ref_id = shapeIntoMongooseObjectId(data.comment_ref_id);
+      const page = data.page * 1;
+      const limit = data.limit * 1;
+      const result = await this.commentModel
+        .aggregate([
+          { $match: { comment_ref_id: comment_ref_id } },
+          { $sort: { createdAt: -1 } },
+          { $skip: (page - 1) * limit },
+          { $limit: limit },
+          {
+            $lookup: {
+              from: "members",
+              localField: "mb_id",
+              foreignField: "_id",
+              as: "member_data",
+            },
+          },
+          { $unwind: "$member_data" },
+        ])
+        .exec();
+      assert.ok(result, Definer.general_err1);
+
       return result;
     } catch (err) {
       throw err;

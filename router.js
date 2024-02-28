@@ -39,6 +39,13 @@ router.post(
   memberController.updateMember
 );
 
+router.post(
+  "/comment/create",
+  memberController.retrieveAuthMember,
+  memberController.createComment
+);
+router.post("/comments", memberController.getComments);
+
 // Product related routers
 router.post(
   "/productsall",

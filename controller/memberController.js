@@ -155,3 +155,31 @@ memberController.retrieveAuthMember = (req, res, next) => {
     next();
   }
 };
+
+// comment
+
+memberController.createComment = async (req, res) => {
+  try {
+    console.log("POST: cont/createComment");
+    assert.ok(req.member, Definer.auth_err5);
+    const comment = new Member();
+    const result = await comment.createCommentData(req.member, req.body);
+    res.json({ state: "success", data: result });
+  } catch (err) {
+    console.log(`ERROR, cont/createComment, ${err.message}`);
+    res.json({ state: "fail", message: err.message });
+  }
+};
+
+memberController.getComments = async (req, res) => {
+  try {
+    console.log("POST: cont/getComments");
+
+    const comment = new Member();
+    const result = await comment.getCommentsData(req.body);
+    res.json({ state: "success", data: result });
+  } catch (err) {
+    console.log(`ERROR, cont/getComments, ${err.message}`);
+    res.json({ state: "fail", message: err.message });
+  }
+};

@@ -85,6 +85,11 @@ const productSchema = new mongoose.Schema(
       required: false,
       default: 0,
     },
+    product_comment: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
     shop_mb_id: {
       type: Schema.Types.ObjectId,
       ref: "Member",
