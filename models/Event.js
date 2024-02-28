@@ -2,7 +2,10 @@ const EventModel = require("../schema/event.model");
 const assert = require("assert");
 const Definer = require("../lib/mistake");
 const Member = require("./Member");
-const { shapeIntoMongooseObjectId } = require("../lib/config");
+const {
+  shapeIntoMongooseObjectId,
+  lookup_auth_member_liked,
+} = require("../lib/config");
 
 class Event {
   constructor() {
@@ -27,7 +30,8 @@ class Event {
           { $sort: sort },
           { $skip: (data.page * 1 - 1) * data.limit },
           { $limit: data.limit * 1 },
-          // todo: check auth user product likes
+          //  check auth user event likes
+          lookup_auth_member_liked(auth_mb_id),
         ])
         .exec();
       // assert.ok(result, Definer.general_err1);
@@ -51,7 +55,8 @@ class Event {
       const result = await this.eventModel
         .aggregate([
           { $match: { _id: id, event_status: "PROCESS" } },
-          // todo: check auth user product likes
+          //  check auth user product likes
+          lookup_auth_member_liked(auth_mb_id),
         ])
         .exec();
 

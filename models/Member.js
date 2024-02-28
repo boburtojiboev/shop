@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const {
   shapeIntoMongooseObjectId,
   lookup_auth_member_following,
+  lookup_auth_member_liked,
 } = require("../lib/config");
 const View = require("./View");
 const Like = require("./Like");
@@ -71,7 +72,8 @@ class Member {
       if (member) {
         // condition if not seem before
         await this.viewChosenItemByMember(member, id, "member");
-        // todo: check auth member liked the chosen target
+        //  check auth member liked the chosen target
+        aggregateQuery.push(lookup_auth_member_liked(auth_member));
         aggregateQuery.push(
           lookup_auth_member_following(auth_member, "members")
         );

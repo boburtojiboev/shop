@@ -3,6 +3,7 @@ const Definer = require("../lib/mistake");
 const {
   shapeIntoMongooseObjectId,
   board_id_enum_list,
+  lookup_auth_member_liked,
 } = require("../lib/config");
 const assert = require("assert");
 const Member = require("./Member");
@@ -56,7 +57,7 @@ class Community {
             },
           },
           { $unwind: "$member_data" },
-          // todo: check auth member liked the chosen target
+          lookup_auth_member_liked(auth_mb_id), //checking liked//
         ])
         .exec();
       assert.ok(result, Definer.article_err2);
@@ -96,7 +97,7 @@ class Community {
             },
           },
           { $unwind: "$member_data" },
-          // todo: check auth member liked the chosen target
+          lookup_auth_member_liked(auth_mb_id), //checking liked//
         ])
         .exec();
       console.log("result:::", result);
