@@ -1,6 +1,7 @@
 const ProductModel = require("../schema/product.model");
 const assert = require("assert");
 const {
+  product_collection_enums,
   lookup_auth_member_liked,
   shapeIntoMongooseObjectId,
 } = require("../lib/config");
@@ -11,35 +12,37 @@ class Product {
   constructor() {
     this.productModel = ProductModel;
   }
-
   async getProductsAllShopsData(member, data) {
     try {
       const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
 
-      const match = {
+      // Construct the match object
+      let match = {
         product_status: "PROCESS",
-        product_collection: data.product_collection,
-        product_size: data.product_size * 1,
       };
 
-      // const match = {
-      //   product_collection:
-      //     data.product_collection ? {product_collection: data.product_collection}: {product_collection: {product_collection_enums}}
-      //   // product_size: data.product_size * 1,
-      // };
+      // If product_collection is "all", include all categories
+      if (data.product_collection === "all") {
+        match["product_collection"] = { $in: ["MEN", "WOMEN", "KIDS"] };
+      } else {
+        match["product_collection"] = data.product_collection;
+      }
 
-      // if (data.product_collection === "all") {
-      //   match["product_collection"] = [product_collection_enums];
-      // } else match["product_collection"] = data.product_collection;
-      // if (data.product_size === "all") {
-      //   match["product_size"] = [product_size_enums];
-      // } else match["product_size"] = data.product_size;
+      // If product_size is "all", include all sizes
+      if (data.product_size === "all") {
+        // may need to adjust how you handle product_size depending on your schema
+        // This assumes product_size is an array field
+        match["product_size"] = {
+          $in: [285, 280, 275, 270, 265, 260, 255, 250, 245, 240, 235, 230],
+        };
+      } else {
+        match["product_size"] = data.product_size * 1;
+      }
 
-      const sort =
-        data.order === "product_price"
-          ? { [data.order]: 1 }
-          : { [data.order]: -1 };
+      // Construct the sort object
+      const sort = { [data.order]: data.order === "product_price" ? 1 : -1 };
 
+      // Perform the aggregation query
       const result = await this.productModel
         .aggregate([
           { $match: match },
@@ -50,7 +53,8 @@ class Product {
           lookup_auth_member_liked(auth_mb_id),
         ])
         .exec();
-      // assert.ok(result, Definer.general_err1);
+
+      assert.ok(result, Definer.general_err1);
       console.log("result::", result);
       return result;
     } catch (err) {
@@ -65,6 +69,12 @@ class Product {
       let match = { product_status: "PROCESS" };
       if (data.shop_mb_id) {
         match["shop_mb_id"] = shapeIntoMongooseObjectId(data.shop_mb_id);
+        match["product_collection"] = data.product_collection;
+      }
+      // If product_collection is "all", include all categories
+      if (data.product_collection === "all") {
+        match["product_collection"] = { $in: ["MEN", "WOMEN", "KIDS"] };
+      } else {
         match["product_collection"] = data.product_collection;
       }
 

@@ -18,7 +18,7 @@ memberController.signup = async (req, res) => {
     const token = memberController.createToken(new_member);
     res.cookie("access_token", token, {
       maxAge: 6 * 3600 * 1000,
-      httpOnly: true,
+      httpOnly: false,
     });
     res.json({ state: "success", data: new_member });
   } catch (err) {
@@ -39,7 +39,7 @@ memberController.login = async (req, res) => {
     const token = memberController.createToken(result);
     res.cookie("access_token", token, {
       maxAge: 6 * 3600 * 1000,
-      httpOnly: true,
+      httpOnly: false,
     });
 
     // console.log("result:::", result);
@@ -130,14 +130,13 @@ memberController.updateMember = async (req, res) => {
   try {
     console.log("POST: cont/updateMember");
     assert.ok(req.member, Definer.auth_err3);
-    const data = req.body;
     const member = new Member();
     const result = await member.updateMemberData(
       req.member?._id,
       req.body,
       req.file
     );
-    console.log("result;;;", result);
+    console.log("result:::", result);
     res.json({ state: "success", data: result });
   } catch (err) {
     console.log(`ERROR, cont/updateMember, ${err.message}`);

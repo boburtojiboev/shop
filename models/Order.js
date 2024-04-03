@@ -13,19 +13,16 @@ class Order {
   async createOrderData(member, data) {
     try {
       let order_total_amount = 0,
-        delivery_cost = 0;
+        delivery_cost = 1.5;
       const mb_id = shapeIntoMongooseObjectId(member._id);
       data.map((item) => {
-        order_total_amount += item.quantity * item.price;
+        order_total_amount +=
+          (item.quantity * item.price * (100 - item.sale)) / 100;
       });
-
-      if (order_total_amount < 100) {
-        delivery_cost = 2;
         order_total_amount += delivery_cost;
-      }
 
       const order_id = await this.saveOrderData(
-        order_total_amount,
+        order_total_amount.toFixed(2),
         delivery_cost,
         mb_id
       );
@@ -79,6 +76,7 @@ class Order {
       const order_item = new this.orderItemModel({
         item_quantity: item.quantity,
         item_price: item.price,
+        item_sale: item.sale,
         order_id: order_id,
         product_id: item._id,
       });
