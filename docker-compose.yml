@@ -1,0 +1,25 @@
+version: "1.1"
+
+services:
+  node:
+    container_name: shop_backend
+    restart: always
+    image: node:16.10.0
+    ports:
+      - 3003:3003
+    volumes:
+      - ./:/usr/src/app
+    working_dir: /usr/src/app
+
+    networks:
+      - shop_network
+
+    # production
+    command: bash -c "npm install && npm run start:prod"
+
+    # development
+    # command: bash -c "npm install && npm run dev"
+
+networks:
+  shop_network:
+    driver: bridge
